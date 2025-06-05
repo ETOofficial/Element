@@ -1,7 +1,9 @@
 package dynastxu;
 
+import dynastxu.effects.ModEffects;
+import dynastxu.event.ModEvents;
+import dynastxu.potions.ModPotions;
 import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,10 @@ public class Element implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
+		ModEffects.register();
+		ModPotions.register();
+		ModEvents.register();
 	}
+
+
 }

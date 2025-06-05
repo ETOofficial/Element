@@ -53,5 +53,9 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("element.quicken", "Quicken");
         translationBuilder.add("element.aggravate", "Aggravate");
         translationBuilder.add("element.spread", "Spread");
+
+        translationBuilder.add("death.attack.element_damage", "%1$s witnessed the power of the elements");
+        translationBuilder.add("death.attack.element_damage.player", "%1$s witnessed %2$s's elemental power");
+        translationBuilder.add("death.attack.element_damage.item", "%1$s witnessed the element power of %2$s's%3$s");
     }
 }

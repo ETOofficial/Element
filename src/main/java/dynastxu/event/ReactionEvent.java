@@ -62,10 +62,11 @@ public class ReactionEvent {
         DamageSource damageSource = ElementDamageType.createDamageSource(world);
 
         // 获取立方体内的所有实体
+        float diameter = power + 1;
         List<Entity> targets = world.getOtherEntities(
                 entity,
-                new Box(entity.getX() - power / 2, entity.getY() - power / 2, entity.getZ() - power / 2,
-                        entity.getX() + power / 2, entity.getY() + power / 2, entity.getZ() + power / 2)
+                new Box(entity.getX() - diameter / 2, entity.getY() - diameter / 2, entity.getZ() - diameter / 2,
+                        entity.getX() + diameter / 2, entity.getY() + diameter / 2, entity.getZ() + diameter / 2)
         );
 
         for (Entity target : targets) {

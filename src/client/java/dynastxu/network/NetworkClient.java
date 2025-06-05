@@ -66,6 +66,7 @@ public class NetworkClient {
                         case Vaporize -> ReactionEventClient.vaporateEvent(client, entity);
                         case Melt -> ReactionEventClient.meltEvent(client, entity);
                         case Overload -> ReactionEventClient.overloadEvent(client, entity);
+                        case Superconduct -> ReactionEventClient.superconductEvent(client, entity, value);
                     }
                 }
             });

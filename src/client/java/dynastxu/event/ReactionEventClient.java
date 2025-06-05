@@ -4,10 +4,12 @@ import dynastxu.particle.TextParticleEffect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.Entity;
+import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Vector3f;
 
 import static dynastxu.elements.ReactionsInfo.*;
 
@@ -41,12 +43,14 @@ public class ReactionEventClient {
         addTextParticles(Text.translatable("element.overload").getString(), OVERLOAD_COLOR, client, pos);
     }
 
-    public static void superconductEvent(MinecraftClient client, Entity entity) {
+    public static void superconductEvent(MinecraftClient client, Entity entity, float power) {
         if (client.world == null || client.player == null) return;
 
         Vec3d pos = entity.getPos();
 
         addTextParticles(Text.translatable("element.superconduct").getString(), SUPERCONDUCT_COLOR, client, pos);
+
+        addParticles(SUPERCONDUCT_COLOR, power + 1, client, pos);
     }
 
     private static void addTextParticles(String text, int color, MinecraftClient client, Vec3d pos){
@@ -81,5 +85,25 @@ public class ReactionEventClient {
                         pos.z
                 )
         );
+    }
+
+    private static void addParticles(int color, float diameter, MinecraftClient client, Vec3d pos){
+        if (client.world == null || client.player == null) return;
+
+        float r = (color >> 16 & 255) / 255.0f;
+        float g = (color >> 8 & 255) / 255.0f;
+        float b = (color & 255) / 255.0f;
+
+        for (int i = 0; i < Math.round(20*diameter); i++) {
+            double offsetX = client.world.random.nextGaussian() * (diameter / 2);
+            double offsetY = client.world.random.nextDouble() * (diameter / 2);
+            double offsetZ = client.world.random.nextGaussian() * (diameter / 2);
+
+            client.world.addParticle(
+                    new DustParticleEffect(new Vector3f(r, g, b), diameter),
+                    pos.x + offsetX, pos.y +  offsetY, pos.z + offsetZ,
+                    0, 0, 0
+            );
+        }
     }
 }

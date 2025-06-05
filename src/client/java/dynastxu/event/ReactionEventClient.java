@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
+import static dynastxu.Element.MAX_DIFFUSION_DISTANCE;
 import static dynastxu.elements.ReactionsInfo.*;
 
 public class ReactionEventClient {
@@ -18,9 +19,7 @@ public class ReactionEventClient {
         if (client.world == null || client.player == null) return;
 
         Vec3d pos = entity.getPos();
-
         playSoundOfExtinguishFire(client, pos);
-
         addTextParticles(Text.translatable("element.vaporize").getString(), VAPORIZE_COLOR, client, pos);
 
     }
@@ -29,9 +28,7 @@ public class ReactionEventClient {
         if (client.world == null || client.player == null) return;
 
         Vec3d pos = entity.getPos();
-
         playSoundOfExtinguishFire(client, pos);
-
         addTextParticles(Text.translatable("element.melt").getString(), MELT_COLOR, client, pos);
     }
 
@@ -39,7 +36,6 @@ public class ReactionEventClient {
         if (client.world == null || client.player == null) return;
 
         Vec3d pos = entity.getPos();
-
         addTextParticles(Text.translatable("element.overload").getString(), OVERLOAD_COLOR, client, pos);
     }
 
@@ -47,10 +43,16 @@ public class ReactionEventClient {
         if (client.world == null || client.player == null) return;
 
         Vec3d pos = entity.getPos();
-
         addTextParticles(Text.translatable("element.superconduct").getString(), SUPERCONDUCT_COLOR, client, pos);
+        addDustParticles(SUPERCONDUCT_COLOR, power + 1, client, pos);
+    }
 
-        addParticles(SUPERCONDUCT_COLOR, power + 1, client, pos);
+    public static void swirlEvent(MinecraftClient client, Entity entity, float power) {
+        if (client.world == null || client.player == null) return;
+
+        Vec3d pos = entity.getPos();
+        addTextParticles(Text.translatable("element.swirl").getString(), SWIRL_COLOR, client, pos);
+        addDustParticles(SWIRL_COLOR, power + 3, client, pos);
     }
 
     private static void addTextParticles(String text, int color, MinecraftClient client, Vec3d pos){
@@ -87,14 +89,15 @@ public class ReactionEventClient {
         );
     }
 
-    private static void addParticles(int color, float diameter, MinecraftClient client, Vec3d pos){
+    private static void addDustParticles(int color, float diameter, MinecraftClient client, Vec3d pos){
+        if (diameter > MAX_DIFFUSION_DISTANCE) diameter = MAX_DIFFUSION_DISTANCE;
         if (client.world == null || client.player == null) return;
 
         float r = (color >> 16 & 255) / 255.0f;
         float g = (color >> 8 & 255) / 255.0f;
         float b = (color & 255) / 255.0f;
 
-        for (int i = 0; i < Math.round(20*diameter); i++) {
+        for (int i = 0; i < Math.round(15*diameter); i++) {
             double offsetX = client.world.random.nextGaussian() * (diameter / 2);
             double offsetY = client.world.random.nextDouble() * (diameter / 2);
             double offsetZ = client.world.random.nextGaussian() * (diameter / 2);

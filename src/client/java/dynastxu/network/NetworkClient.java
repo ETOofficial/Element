@@ -67,6 +67,7 @@ public class NetworkClient {
                         case Melt -> ReactionEventClient.meltEvent(client, entity);
                         case Overload -> ReactionEventClient.overloadEvent(client, entity);
                         case Superconduct -> ReactionEventClient.superconductEvent(client, entity, value);
+                        case Swirl -> ReactionEventClient.swirlEvent(client, entity, value);
                     }
                 }
             });

@@ -1,6 +1,7 @@
 package dynastxu.api;
 
 import dynastxu.elements.AttachedElement;
+import dynastxu.elements.Elements;
 import dynastxu.elements.ReactionResult;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface ILivingEntityData {
     void element$setAttachedElements(List<AttachedElement> elements);
     void element$syncAttachedElements();
     ReactionResult element$reactionElements(AttachedElement element, List<AttachedElement> elements);
-    void element$triggerReaction(ReactionResult reactionResult);
+    void element$triggerReaction(ReactionResult reactionResult, Elements swirlElement);
 }

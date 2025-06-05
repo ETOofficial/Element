@@ -51,6 +51,10 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
     @Unique
     private float elementalMastery;
     @Unique
+    private static final int ATTACH_INTERVAL = 2;
+    @Unique
+    private int attachedTick;
+    @Unique
     private static final int SYNC_INTERVAL = 5; // 同步间隔
     @Unique
     private int syncCooldown = 0;
@@ -61,6 +65,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         baseAttenuationSpeed = maxElementLevel / 30;
         attenuationSpeed = 1;
         elementalMastery = 1;
+        attachedTick = 0;
     }
 
     // 4. 【重要】处理生命周期事件 (示例：在tick中更新)
@@ -85,6 +90,9 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         if (submergedPercentage > 0) {
             element$addAttachedElement(new AttachedElement(Elements.Hydro, submergedPercentage / 20f));
         }
+
+        if (attachedTick > 0) attachedTick--;
+
         // 同步数据
         if (!self.getWorld().isClient()) {
             if (syncCooldown <= 0) {
@@ -165,6 +173,8 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
 
     @Override
     public ReactionResult element$addAttachedElement(AttachedElement element) {
+        if (attachedTick > 0) return null;
+        attachedTick = ATTACH_INTERVAL;
         // 元素已经存在
         for (AttachedElement existingElement : this.attachedElements) {
             if (existingElement.getElement() == element.getElement()) {
@@ -205,6 +215,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
     public ReactionResult element$reactionElements(AttachedElement element, List<AttachedElement> elements) {
         List<AttachedElement> toRemove = new ArrayList<>(); // 创建待删除列表
         ReactionResult reactionResult = null;
+        Elements swirlElement = null;
         switch (element.getElement()) {
             case Pyro -> {
                 for (AttachedElement attachedElement : elements) {
@@ -254,6 +265,28 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
                     if (attachedElement.getLevel() <= 0) toRemove.add(attachedElement);
                 }
             }
+            case Anemo -> {
+                for (AttachedElement attachedElement : elements) {
+                    switch (attachedElement.getElement()) {
+                        case Pyro -> {// 风 -> 火
+                            reactionResult = ReactionHandler.swirl(element, attachedElement);
+                            swirlElement = attachedElement.getElement();
+                        }
+                        case Hydro -> { // 风 -> 水
+                            reactionResult = ReactionHandler.swirl(element, attachedElement);
+                            swirlElement = attachedElement.getElement();
+                        }
+                        case Cryo -> { // 风 -> 冰
+                            reactionResult = ReactionHandler.swirl(element, attachedElement);
+                            swirlElement = attachedElement.getElement();
+                        }
+                        case Electro -> {// 风 -> 雷
+                            reactionResult = ReactionHandler.swirl(element, attachedElement);
+                            swirlElement = attachedElement.getElement();
+                        }
+                    }
+                }
+            }
         }
 
         // 清理空元素
@@ -266,16 +299,16 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
 
         // 触发反应
         if (reactionResult != null && reactionResult.reaction() != null) {
-            element$triggerReaction(reactionResult);
+            element$triggerReaction(reactionResult, swirlElement);
         }
 
         return reactionResult;
     }
 
     @Override
-    public void element$triggerReaction(ReactionResult reactionResult) {
+    public void element$triggerReaction(ReactionResult reactionResult, Elements swirlElement) {
         if (!((LivingEntity) (Object) this).getWorld().isClient())
-            ReactionEvent.event((LivingEntity) (Object) this, reactionResult);
+            ReactionEvent.event((LivingEntity) (Object) this, reactionResult, swirlElement);
 
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeVarInt(((LivingEntity) (Object) this).getId());

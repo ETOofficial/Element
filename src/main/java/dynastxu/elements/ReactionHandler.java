@@ -53,6 +53,18 @@ public class ReactionHandler {
         return new ReactionResult(Reactions.Superconduct, consumeAmount * 2);
     }
 
+    public static ReactionResult swirl(AttachedElement anemo, AttachedElement element){
+        if (anemo.getElement() != Elements.Anemo && element.getElement() == Elements.Anemo){
+            return swirl(element, anemo);
+        } else if (element.getElement() != Elements.Pyro && element.getElement() != Elements.Hydro && element.getElement() != Elements.Cryo && element.getElement() != Elements.Electro){
+            throw new IllegalArgumentException("Invalid element combination");
+        }
+
+        float consumeAmount = restrained(element, anemo);
+
+        return new ReactionResult(Reactions.Swirl, consumeAmount * 3);
+    }
+
     /**
      * 对两个关联元素进行克制反应，以 1:2 比例消耗
      *

@@ -5,4 +5,5 @@ public class ReactionsInfo {
     public static final int MELT_COLOR = 0xFF7DD5E7;
     public static final int OVERLOAD_COLOR = 0xFFD35954;
     public static final int SUPERCONDUCT_COLOR = 0xFF9F5CE6;
+    public static final int SWIRL_COLOR = 0xFF7BDFBB;
 }

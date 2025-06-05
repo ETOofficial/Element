@@ -11,11 +11,6 @@ public class AttachedElement {
         this.level = level;
     }
 
-    public AttachedElement() {
-        this.element = Elements.NONE;
-        this.level = 0;
-    }
-
     public Elements getElement() {
         return element;
     }

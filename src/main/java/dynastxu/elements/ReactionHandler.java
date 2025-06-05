@@ -1,5 +1,9 @@
 package dynastxu.elements;
 
+/**
+ * 此类仅处理元素间的反应的数值
+ * 事件请移步 ReactionEvent.class
+ */
 public class ReactionHandler {
     public static ReactionResult vaporize(AttachedElement hydro, AttachedElement pyro){
         if (hydro.getElement() == Elements.Pyro && pyro.getElement() == Elements.Hydro){

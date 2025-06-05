@@ -1,6 +1,7 @@
 package dynastxu.event;
 
 import dynastxu.api.ILivingEntityData;
+import dynastxu.damage_type.ElementDamageType;
 import dynastxu.elements.AttachedElement;
 import dynastxu.elements.Elements;
 import dynastxu.elements.ReactionResult;
@@ -28,21 +29,18 @@ public class ReactionEvent {
         );
 
         // 2. 创建伤害源
-        // 2. 创建爆炸伤害源
-        DamageSource explosionDamage = entity.getDamageSources().explosion(
-                null // 爆炸源（可为null）
-        );
+        DamageSource damageSource = ElementDamageType.createDamageSource(world);
 
 
         for (Entity target : targets) {
             if (target instanceof LivingEntity livingEntity) {
                 float distance = (float) livingEntity.getPos().distanceTo(entity.getPos());
                 float damage = 1 - distance / (power / 2); // 线性衰减
-                livingEntity.damage(explosionDamage, damage);
+                livingEntity.damage(damageSource, damage);
             }
         }
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.damage(explosionDamage, power);
+            livingEntity.damage(damageSource, power);
         }
 
         // 4. 添加爆炸效果（可选，参数：位置坐标、威力、是否破坏方块）
@@ -61,9 +59,7 @@ public class ReactionEvent {
 
         World world = entity.getWorld();
 
-        DamageSource explosionDamage =entity.getDamageSources().explosion(
-                null // 爆炸源（可为null）
-        );
+        DamageSource damageSource = ElementDamageType.createDamageSource(world);
 
         // 获取立方体内的所有实体
         List<Entity> targets = world.getOtherEntities(
@@ -76,11 +72,12 @@ public class ReactionEvent {
             if (target instanceof LivingEntity livingEntity && livingEntity instanceof ILivingEntityData) {
                 float distance = (float) livingEntity.getPos().distanceTo(entity.getPos());
                 power = 1 - distance / (power / 2); // 线性衰减
+                livingEntity.damage(damageSource, power);
                 ((ILivingEntityData) livingEntity).element$addAttachedElement(new AttachedElement(Elements.Cryo, power));
             }
         }
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.damage(explosionDamage, power);
+            livingEntity.damage(damageSource, power);
         }
     }
 

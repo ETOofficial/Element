@@ -72,7 +72,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         while (iterator.hasNext()) {
             AttachedElement element = iterator.next();
             element.attenuation(baseAttenuationSpeed, attenuationSpeed);
-            if (element.getLevel() <= 0 || element.getElement() == Elements.NONE) {
+            if (element == null || element.getLevel() <= 0) {
                 iterator.remove();
             }
         }
@@ -261,7 +261,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         this.element$syncAttachedElements();
 
         // 触发反应
-        if (reactionResult != null && reactionResult.reaction() != Reactions.None) {
+        if (reactionResult != null && reactionResult.reaction() != null) {
             element$triggerReaction(reactionResult);
         }
 

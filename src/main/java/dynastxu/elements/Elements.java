@@ -1,7 +1,6 @@
 package dynastxu.elements;
 
 public enum Elements {
-    NONE,
     Pyro, // 火元素
     Hydro, // 水元素
     Anemo, // 风元素

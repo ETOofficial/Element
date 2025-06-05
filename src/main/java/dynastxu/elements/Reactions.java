@@ -1,7 +1,6 @@
 package dynastxu.elements;
 
 public enum Reactions {
-    None,
     Vaporize, // 蒸发
     Melt, // 融化
     Overload, // 超载

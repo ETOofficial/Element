@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -72,13 +73,16 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
         LivingEntity self = (LivingEntity) (Object) this;
-        // 每刻更新你的自定义逻
-        Iterator<AttachedElement> iterator = this.attachedElements.iterator();
-        while (iterator.hasNext()) {
-            AttachedElement element = iterator.next();
-            element.attenuation(baseAttenuationSpeed, attenuationSpeed);
-            if (element == null || element.getLevel() <= 0) {
-                iterator.remove();
+
+        if (!(self instanceof SlimeEntity)) {
+            // 自然衰减
+            Iterator<AttachedElement> iterator = this.attachedElements.iterator();
+            while (iterator.hasNext()) {
+                AttachedElement element = iterator.next();
+                element.attenuation(baseAttenuationSpeed, attenuationSpeed);
+                if (element == null || element.getLevel() <= 0) {
+                    iterator.remove();
+                }
             }
         }
 

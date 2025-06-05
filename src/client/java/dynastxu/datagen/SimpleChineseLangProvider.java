@@ -53,8 +53,8 @@ public class SimpleChineseLangProvider extends FabricLanguageProvider {
         translationBuilder.add("element.aggravate", "超激化");
         translationBuilder.add("element.spread", "蔓激化");
 
-        translationBuilder.add("death.attack.element_damage", "%1$s 见证了元素之力");
-        translationBuilder.add("death.attack.element_damage.player", "%1$s 见证了 %2$s 的元素之力");
-        translationBuilder.add("death.attack.element_damage.item", "%1$s 见证了 %2$s 的 %3$s 所蕴含的元素之力");
+        translationBuilder.add("death.attack.element_damage", "%1$s见证了元素之力");
+        translationBuilder.add("death.attack.element_damage.player", "%1$s见证了%2$s的元素之力");
+        translationBuilder.add("death.attack.element_damage.item", "%1$s见证了%2$s的%3$s所蕴含的元素之力");
     }
 }

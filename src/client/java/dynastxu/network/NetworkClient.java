@@ -54,23 +54,21 @@ public class NetworkClient {
 
     private static void elementalReactionReceivingRegister() {
         // 元素反应接收
-        ClientPlayConnectionEvents.JOIN.register((handler1, sender, client1) -> {
-            ClientPlayNetworking.registerReceiver(ELEMENT_REACTION_CHANNEL, (client, handler, buf, responseSender) -> {
-                int entityId = buf.readVarInt();
-                Reactions reaction = buf.readEnumConstant(Reactions.class);
+        ClientPlayConnectionEvents.JOIN.register((handler1, sender, client1) -> ClientPlayNetworking.registerReceiver(ELEMENT_REACTION_CHANNEL, (client, handler, buf, responseSender) -> {
+            int entityId = buf.readVarInt();
+            Reactions reaction = buf.readEnumConstant(Reactions.class);
 
-                client.execute(() -> {
-                    Entity entity = client.world.getEntityById(entityId);
-                    if (entity != null) {
-                        switch (reaction) {
-                            case Vaporize -> ReactionEventClient.vaporateEvent(client, entity);
-                            case Melt -> ReactionEventClient.meltEvent(client, entity);
-                            case Overload -> ReactionEventClient.overloadEvent(client, entity);
-                        }
+            client.execute(() -> {
+                Entity entity = client.world.getEntityById(entityId);
+                if (entity != null) {
+                    switch (reaction) {
+                        case Vaporize -> ReactionEventClient.vaporateEvent(client, entity);
+                        case Melt -> ReactionEventClient.meltEvent(client, entity);
+                        case Overload -> ReactionEventClient.overloadEvent(client, entity);
                     }
-                });
+                }
             });
-        });
+        }));
     }
 
 

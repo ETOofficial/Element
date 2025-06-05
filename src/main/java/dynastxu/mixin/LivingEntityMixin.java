@@ -276,6 +276,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeVarInt(((LivingEntity) (Object) this).getId());
         buf.writeEnumConstant(reactionResult.reaction());
+        buf.writeFloat(reactionResult.reactionValue());
 
         for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) ((LivingEntity) (Object) this).getWorld(),
                 ((LivingEntity) (Object) this).getBlockPos())) {

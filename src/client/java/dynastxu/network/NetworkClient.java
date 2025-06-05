@@ -57,6 +57,7 @@ public class NetworkClient {
         ClientPlayConnectionEvents.JOIN.register((handler1, sender, client1) -> ClientPlayNetworking.registerReceiver(ELEMENT_REACTION_CHANNEL, (client, handler, buf, responseSender) -> {
             int entityId = buf.readVarInt();
             Reactions reaction = buf.readEnumConstant(Reactions.class);
+            float value = buf.readFloat();
 
             client.execute(() -> {
                 Entity entity = client.world.getEntityById(entityId);

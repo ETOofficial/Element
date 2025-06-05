@@ -82,12 +82,12 @@ public class ReactionEvent {
     }
 
     public static void event(Entity entity, ReactionResult reactionResult){
-        switch (reactionResult.getReaction()){
+        switch (reactionResult.reaction()){
             case Overload:
-                overloadEvent(entity, reactionResult.getReactionValue());
+                overloadEvent(entity, reactionResult.reactionValue());
                 break;
             case Superconduct:
-                superconductEvent(entity, reactionResult.getReactionValue());
+                superconductEvent(entity, reactionResult.reactionValue());
                 break;
         }
     }

@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static dynastxu.network.Network.*;
+import static dynastxu.network.Network.ELEMENT_REACTION_CHANNEL;
+import static dynastxu.network.Network.ELEMENT_SYNC_CHANNEL;
 
 @Mixin(LivingEntity.class) // 关键：只针对有生命的实体！
 public abstract class LivingEntityMixin implements ILivingEntityData { // 可选接口
@@ -131,10 +132,10 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         if (source.isIn(DamageTypeTags.IS_FIRE)) {
             ReactionResult reactionResult = element$addAttachedElement(new AttachedElement(Elements.Pyro, amount / getMaxHealth() * 2));
             if (reactionResult != null) {
-                if (reactionResult.getReaction() == Reactions.Vaporize) {
-                    amount *= (1 +  reactionResult.getReactionValue()) * 1.5f;
-                } else if (reactionResult.getReaction() == Reactions.Melt) {
-                    amount *= (1 + reactionResult.getReactionValue()) * 2;
+                if (reactionResult.reaction() == Reactions.Vaporize) {
+                    amount *= (1 +  reactionResult.reactionValue()) * 1.5f;
+                } else if (reactionResult.reaction() == Reactions.Melt) {
+                    amount *= (1 + reactionResult.reactionValue()) * 2;
                 }
             }
         }
@@ -260,7 +261,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         this.element$syncAttachedElements();
 
         // 触发反应
-        if (reactionResult != null && reactionResult.getReaction() != Reactions.None) {
+        if (reactionResult != null && reactionResult.reaction() != Reactions.None) {
             element$triggerReaction(reactionResult);
         }
 
@@ -274,7 +275,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
 
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeVarInt(((LivingEntity) (Object) this).getId());
-        buf.writeEnumConstant(reactionResult.getReaction());
+        buf.writeEnumConstant(reactionResult.reaction());
 
         for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) ((LivingEntity) (Object) this).getWorld(),
                 ((LivingEntity) (Object) this).getBlockPos())) {

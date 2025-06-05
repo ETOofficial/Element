@@ -2,9 +2,6 @@ package dynastxu.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.item.Item;
-
-import static dynastxu.effects.ModEffects.*;
 
 public class EnglishLangProvider extends FabricLanguageProvider {
     private static final String languageCode = "en_us";

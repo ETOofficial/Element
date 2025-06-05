@@ -19,7 +19,7 @@ public class TextParticle extends SpriteBillboardParticle {
         this.textColor = textColor;
         this.textScale = textScale;
         this.textRenderer = textRenderer;
-        this.maxAge = 100; // 粒子生命周期
+        this.maxAge = 60; // 粒子生命周期
         this.scale = 0.1f; // 粒子大小
         this.setSprite(spriteProvider.getSprite(age, maxAge)); // 设置粒子纹理
 

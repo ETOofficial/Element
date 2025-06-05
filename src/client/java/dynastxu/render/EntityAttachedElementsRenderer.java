@@ -3,7 +3,6 @@ package dynastxu.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dynastxu.api.ILivingEntityData;
 import dynastxu.elements.AttachedElement;
-import dynastxu.elements.Elements;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
@@ -16,13 +15,11 @@ import org.joml.Matrix4f;
 
 import java.util.List;
 
-import static dynastxu.Element.MOD_ID;
+import static dynastxu.elements.ElementsInfo.getTexture;
 
 public class EntityAttachedElementsRenderer {
-    // 自定义纹理标识符（替换为你的图片路径）
-    private static final Identifier HYDRO_TEXTURE = new Identifier(MOD_ID, "textures/elements/hydro.png");
-    private static final Identifier PYRO_TEXTURE = new Identifier(MOD_ID, "textures/elements/pyro.png");
     public static void renderEntityOverlays(WorldRenderContext context) {
+        // FIXME 当实体着火时，图标会被火焰挡住
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.world == null) return;
 
@@ -45,7 +42,7 @@ public class EntityAttachedElementsRenderer {
             if (elements.isEmpty()) continue;
 
             // 计算基础位置和大小
-            float distance = (float) entity.distanceTo(client.player);
+            float distance = entity.distanceTo(client.player);
             float scale = MathHelper.clamp(1.0f - distance / 50.0f, 0.2f, 1.0f) * 0.5f;
             float time = (client.player.age + context.tickDelta()) / 20.0f;
             float yOffset = MathHelper.sin(time * 2.0f) * 0.1f;
@@ -62,14 +59,13 @@ public class EntityAttachedElementsRenderer {
             matrixStack.scale(scale, scale, scale);
 
             // 计算总宽度用于居中排列
-            float totalWidth = (elements.size() - 1) * 1.2f; // 1.2f 是图标间距
             for (int i = 0; i < elements.size(); i++) {
                 AttachedElement element = elements.get(i);
-                Identifier texture = getTextureForElement(element.getElement());
+                Identifier texture = getTexture(element.getElement());
                 if (texture == null) continue;
 
                 // 计算水平偏移（居中排列）
-                float offsetX = (i - (elements.size() - 1) / 2.0f) * 1.2f;
+                float offsetX = (i - (elements.size() - 1) / 2.0f) * 1.2f; // 1.2f 是图标间距
 
                 // 为当前元素设置纹理
                 RenderSystem.setShaderTexture(0, texture);
@@ -77,6 +73,7 @@ public class EntityAttachedElementsRenderer {
                 // 准备缓冲区（每个元素单独绘制）
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder buffer = tessellator.getBuffer();
+
                 buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT);
 
                 // 应用水平偏移
@@ -126,16 +123,5 @@ public class EntityAttachedElementsRenderer {
 
         // 恢复渲染状态
         RenderSystem.disableBlend();
-    }
-
-    private static Identifier getTextureForElement(Elements element) {
-        switch (element) {
-            case Hydro:
-                return HYDRO_TEXTURE;
-            case Pyro:
-                return PYRO_TEXTURE;
-        }
-        // 添加更多元素纹理...
-        return null; // 未知元素不渲染
     }
 }

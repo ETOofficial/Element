@@ -105,7 +105,7 @@ public class TextParticlesTextRenderer {
         float scaleFactor = 0.02f;
         if (distance > 16.0) {
             // 距离越远，文字越小（可选）
-            scaleFactor *= MathHelper.clamp(16.0 / distance, 0.5, 1.0);
+            scaleFactor *= (float) MathHelper.clamp(16.0 / distance, 0.5, 1.0);
         }
         matrices.scale(-scaleFactor, -scaleFactor, scaleFactor); // 负值翻转Y轴
 
@@ -135,5 +135,10 @@ public class TextParticlesTextRenderer {
 
     public static void tick() {
         ACTIVE_PARTICLES.removeIf(particle -> particle.getAge() >= particle.getMaxAge());
+    }
+
+    // 新增清除方法
+    public static void clearAllParticles() {
+        ACTIVE_PARTICLES.clear();
     }
 }

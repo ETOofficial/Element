@@ -180,6 +180,10 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         this.attachedElements.add(element);
         ReactionResult reactionResult = element$reactionElements(element, this.attachedElements);
 
+        // 风元素不可附着
+        this.attachedElements.removeIf(e -> e.getElement() == Elements.Anemo);
+
+        // 同步数据
         if (!((LivingEntity) (Object) this).getWorld().isClient()) {
             this.element$syncAttachedElements();
         }

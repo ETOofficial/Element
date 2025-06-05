@@ -54,7 +54,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
     @Unique
     private static final int ATTACH_INTERVAL = 2;
     @Unique
-    private int attachedTick;
+    private int attachCooldown;
     @Unique
     private static final int SYNC_INTERVAL = 5; // 同步间隔
     @Unique
@@ -66,7 +66,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
         baseAttenuationSpeed = maxElementLevel / 30;
         attenuationSpeed = 1;
         elementalMastery = 1;
-        attachedTick = 0;
+        attachCooldown = 0;
     }
 
     // 4. 【重要】处理生命周期事件 (示例：在tick中更新)
@@ -95,7 +95,7 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
             element$addAttachedElement(new AttachedElement(Elements.Hydro, submergedPercentage / 20f));
         }
 
-        if (attachedTick > 0) attachedTick--;
+        if (attachCooldown > 0) attachCooldown--;
 
         // 同步数据
         if (!self.getWorld().isClient()) {
@@ -177,8 +177,8 @@ public abstract class LivingEntityMixin implements ILivingEntityData { // 可选
 
     @Override
     public ReactionResult element$addAttachedElement(AttachedElement element) {
-        if (attachedTick > 0) return null;
-        attachedTick = ATTACH_INTERVAL;
+        if (attachCooldown > 0) return null;
+        attachCooldown = ATTACH_INTERVAL;
         // 元素已经存在
         for (AttachedElement existingElement : this.attachedElements) {
             if (existingElement.getElement() == element.getElement()) {

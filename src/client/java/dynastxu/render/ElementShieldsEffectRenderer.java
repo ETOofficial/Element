@@ -41,8 +41,7 @@ public class ElementShieldsEffectRenderer {
         if (client.player == null) return false;
 
         // 检测玩家是否具有目标效果且剩余时间>0
-        for (RegistryEntry<StatusEffect> effect : TARGET_EFFECTS) {
-//            StatusEffectInstance effectInstance = client.player.getStatusEffect(effect.value());
+        for (RegistryEntry<StatusEffect> ignored : TARGET_EFFECTS) {
             if (((ILivingEntityData) client.player).element$getElementAbsorptionAmount() > 0) {
                 return true;
             }

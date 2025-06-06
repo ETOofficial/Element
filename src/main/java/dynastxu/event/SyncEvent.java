@@ -12,7 +12,7 @@ public class SyncEvent {
      */
     public static void syncPlayerData(LivingEntity player) {
         // 假设 ILivingEntityData 提供了 syncAttachedElements 方法用于同步
-        ((ILivingEntityData) player).element$syncAttachedElements();
+        ((ILivingEntityData) player).element$syncDatas();
 
         // 可选：通过网络发送同步包给客户端
         // Network.sendPlayerDataSynchronizationPacket(player);
@@ -25,7 +25,7 @@ public class SyncEvent {
                 handler.player.getBoundingBox().expand(32),
                 e -> e instanceof LivingEntity
         )) {
-            ((ILivingEntityData) entity).element$syncAttachedElements();
+            ((ILivingEntityData) entity).element$syncDatas();
         }
     }
 

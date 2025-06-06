@@ -2,6 +2,7 @@ package dynastxu.network;
 
 import dynastxu.api.ILivingEntityData;
 import dynastxu.elements.AttachedElement;
+import dynastxu.elements.Elements;
 import dynastxu.elements.Reactions;
 import dynastxu.event.ReactionEventClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -30,7 +31,9 @@ public class NetworkClient {
                 ELEMENT_SYNC_CHANNEL,
                 (client, handler, buf, responseSender) -> {
                     int entityId = buf.readVarInt();
-                    NbtList list = buf.readNbt().getList("elements", NbtElement.COMPOUND_TYPE);
+                    NbtList elementsList = buf.readNbt().getList("elements", NbtElement.COMPOUND_TYPE);
+                    float absorptionAmount = buf.readFloat();
+                    String elementName = buf.readString();
 
                     client.execute(() -> {
                         ClientWorld world = client.world;
@@ -40,11 +43,14 @@ public class NetworkClient {
                                 ILivingEntityData data = (ILivingEntityData) entity;
                                 List<AttachedElement> elements = new ArrayList<>();
 
-                                for (int i = 0; i < list.size(); i++) {
-                                    elements.add(AttachedElement.deserialize(list.getCompound(i)));
+                                for (int i = 0; i < elementsList.size(); i++) {
+                                    elements.add(AttachedElement.deserialize(elementsList.getCompound(i)));
                                 }
 
                                 data.element$setAttachedElements(elements);
+
+                                data.element$setElementAbsorptionAmount(absorptionAmount);
+                                data.element$setAbsorptionElement(elementName.isEmpty() ? null : Elements.valueOf(elementName));
                             }
                         }
                     });

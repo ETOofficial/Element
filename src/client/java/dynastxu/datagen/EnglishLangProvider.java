@@ -54,6 +54,11 @@ public class EnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("element.aggravate", "Aggravate");
         translationBuilder.add("element.spread", "Spread");
 
+        translationBuilder.add("effect.element.hydro_shields", "Hydro Shields");
+        translationBuilder.add("effect.element.pyro_shields", "Pyro Shields");
+        translationBuilder.add("effect.element.cryo_shields", "Cryo Shields");
+        translationBuilder.add("effect.element.electro_shields", "Electro Shields");
+
         translationBuilder.add("death.attack.element_damage", "%1$s witnessed the power of the elements");
         translationBuilder.add("death.attack.element_damage.player", "%1$s witnessed %2$s's elemental power");
         translationBuilder.add("death.attack.element_damage.item", "%1$s witnessed the element power of %2$s's%3$s");

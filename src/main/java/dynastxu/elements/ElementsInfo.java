@@ -30,7 +30,6 @@ public class ElementsInfo {
             case Dendro -> DENDRO_COLOR;
             case Cryo -> CRYO_COLOR;
             case Geo -> GEO_COLOR;
-            default -> throw new IllegalArgumentException("Invalid element: " + element);
         };
     }
 
@@ -43,7 +42,6 @@ public class ElementsInfo {
             case Geo -> GEO_TEXTURE;
             case Anemo -> ANEMO_TEXTURE;
             case Electro -> ELECTRO_TEXTURE;
-            default -> null;
         };
     }
 }

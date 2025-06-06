@@ -12,7 +12,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import java.util.List;
 
 public class ElementShieldsEffectRenderer {
-    private static MinecraftClient client = MinecraftClient.getInstance();
+    private static final MinecraftClient client = MinecraftClient.getInstance();
 //    private static Elements element;
     private static final List<RegistryEntry<StatusEffect>> TARGET_EFFECTS = List.of(
             ModEffects.HYDRO_SHIELDS_EFFECT,

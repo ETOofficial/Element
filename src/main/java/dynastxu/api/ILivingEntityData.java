@@ -7,19 +7,18 @@ import dynastxu.elements.ReactionResult;
 import java.util.List;
 
 public interface ILivingEntityData {
-    public float element$getMaxElementLevel();
-    public void element$setMaxElementLevel(float maxElementLevel);
-    public float element$getBaseAttenuationSpeed();
-    public void element$setBaseAttenuationSpeed(float baseAttenuationSpeed);
-    public float element$getAttenuationSpeed();
-    public void element$setAttenuationSpeed(float attenuationSpeed);
-    public float element$getElementalMastery();
-    public void element$setElementalMastery(float elementalMastery);
-    public float element$getElementAbsorptionAmount();
-    public void element$setElementAbsorptionAmount(float elementAbsorptionAmount);
-    public Elements element$getAbsorptionElement();
-    public void element$setAbsorptionElement(Elements element);
-
+    float element$getMaxElementLevel();
+    void element$setMaxElementLevel(float maxElementLevel);
+    float element$getBaseAttenuationSpeed();
+    void element$setBaseAttenuationSpeed(float baseAttenuationSpeed);
+    float element$getAttenuationSpeed();
+    void element$setAttenuationSpeed(float attenuationSpeed);
+    float element$getElementalMastery();
+    void element$setElementalMastery(float elementalMastery);
+    float element$getElementAbsorptionAmount();
+    void element$setElementAbsorptionAmount(float elementAbsorptionAmount);
+    Elements element$getAbsorptionElement();
+    void element$setAbsorptionElement(Elements element);
     ReactionResult element$addAttachedElement(AttachedElement element);
     List<AttachedElement> element$getAttachedElements();
     void element$setAttachedElements(List<AttachedElement> elements);
